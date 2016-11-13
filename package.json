@@ -1,0 +1,24 @@
+{
+  "name": "Spotlight Search",
+  "version": "1.0.0",
+  "description": "Search your computer for applications",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/ocboogie/spotlight-search",
+  "keywords": [
+    "Electron",
+    "search",
+    "Spotlight",
+    "Spotlight Search"
+  ],
+  "author": "ocboogie",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  },
+  "dependencies": {
+    "jsonlint": "^1.6.2"
+  }
+}
