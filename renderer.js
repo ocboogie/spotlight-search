@@ -4,6 +4,7 @@
 const fs = require('fs');
 const {ipcRenderer} = require('electron');
 const jsonlint = require("jsonlint");
+const less = require('less');
 // Load the full build.
 var _ = require('lodash');
 // Load the core build.
@@ -16,17 +17,22 @@ function loadJsonFile(filePath) {
         return json
     } catch (e) {
         if (!e.message.startsWith("ENOENT: no such file or directory")) {
-            ipcRenderer.send("jsonError", e.toString());
+            ipcRenderer.send("error", "Json Error", e.toString());
             // ipcRenderer.send("jsonError", e.name + ': ' + e.message);
         }
     }
 }
 
-function loadTheme(theme) {
-    _.forEach(theme, (value) => {
-        $(value["selector"]).css(value["css"], value["value"]);
+function loadTheme(filePath) {
+    less.render(fs.readFileSync(filePath, 'utf8'), (e, output) => {
+        if (e) {
+            ipcRenderer.send("error", "css Theme Error", "Error at line " + e.line + ": " + e.message);
+        } else {
+            // $('head').append('<link rel="stylesheet" type="text/css">' + output.css + '</link>')
+            $('head').append($('<style>' + output.css + '</style>'));
+        }
+
     });
 }
 
-let theme = loadJsonFile('./theme.json');
-loadTheme(theme);
+loadTheme("./theme.less");

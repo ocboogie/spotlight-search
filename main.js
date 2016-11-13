@@ -62,8 +62,8 @@ app.on('activate', function() {
     }
 });
 
-ipcMain.on("jsonError", (event, arg) => {
-    dialog.showErrorBox("Json error", arg);
+ipcMain.on("error", (event, arg, arg2) => {
+    dialog.showErrorBox(arg, arg2);
 });
 
 // In this file you can include the rest of your app's specific main process
