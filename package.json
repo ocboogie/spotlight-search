@@ -1,5 +1,5 @@
 {
-  "name": "Spotlight Search",
+  "name": "spotlight-search",
   "version": "1.0.0",
   "description": "Search your computer for applications",
   "main": "main.js",
@@ -9,7 +9,7 @@
   "repository": "https://github.com/ocboogie/spotlight-search",
   "keywords": [
     "Electron",
-    "search",
+    "Search",
     "Spotlight",
     "Spotlight Search"
   ],
