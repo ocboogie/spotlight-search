@@ -5,6 +5,8 @@ const fs = require('fs');
 const {ipcRenderer} = require('electron');
 const jsonlint = require("jsonlint");
 
+console.log($("body h1").text());
+
 let file = './config.json';
 
 try {
