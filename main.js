@@ -4,7 +4,8 @@ const {
     app,
     BrowserWindow,
     dialog,
-    ipcMain
+    ipcMain,
+    Menu
 } = require('electron');
 
 const path = require('path');
@@ -54,6 +55,8 @@ app.on('window-all-closed', function() {
     }
 });
 
+
+
 app.on('activate', function() {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
@@ -66,5 +69,17 @@ ipcMain.on("error", (event, arg, arg2) => {
     dialog.showErrorBox(arg, arg2);
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+const template = [
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Reload theme',
+        click (item, focusedWindow) {
+            mainWindow.webContents.send('reload-theme')
+        }
+      }
+    ]
+}]
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
