@@ -13,6 +13,10 @@ var _ = require('lodash');
 // Load the core build.
 var _ = require('lodash/core');
 
+const commands = require("./commands.js")
+
+console.log(commands);
+
 function loadJsonFile(filePath) {
     try {
         let fileContent = fs.readFileSync(filePath, 'utf8');
@@ -40,7 +44,7 @@ function loadTheme(filePath) {
 
 function reloadStylesheets() {
     var queryString = '?reload=' + new Date().getTime();
-    $('link[rel="stylesheet"]').each(function () {
+    $('link[rel="stylesheet"]').each(function() {
         this.href = this.href.replace(/\?.*|$/, queryString);
     });
 }
@@ -63,12 +67,37 @@ function dev() {
     reloadStylesheets();
 }
 
+function checkCommand(value) {
+    let command = value.split(" ")[0];
+    let args = value.split(" ").splice(1)
+    commands.forEach((item) => {
+        if (command === item.name) {
+            item.func(args)
+            return;
+        }
+    });
+}
+
+function registerKeys() {
+    $(".search-input").bind("enterKey", function(e) {
+        console.log("enterKey");
+        checkCommand($(".search-input").val())
+    });
+    $(".search-input").keyup(function(e) {
+        if (e.keyCode == 13) {
+            $(this).trigger("enterKey");
+        }
+    });
+}
+
 function run() {
     dev();
+    registerKeys();
 }
 
 ipcRenderer.on("reload-theme", (filePath) => {
     renderLess("theme.less");
+    reloadStylesheets();
 });
 
 run();
